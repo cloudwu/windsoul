@@ -10,5 +10,3 @@ $(LIBTAR) : $(LIB_O) $(LIB_INIT_O)
 	$(AR) $@ $(ARCHIVE_OBJECTS)
 
 all : $(LIBTAR)
-
-#GENINIT := $(BUILD_TOOLS)/geninit.exe
