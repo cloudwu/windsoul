@@ -1,0 +1,14 @@
+MKDIRS := $(MKDIRS) $(BUILD_TOP)/lib
+
+LIBTAR := $(BUILD_TOP)/lib/$(LIBTAR)
+
+$(LIBTAR) : | $(BUILD_TOP)/lib
+
+
+$(LIBTAR) : ARCHIVE_OBJECTS := $(LIB_O) $(LIB_INIT_O)
+$(LIBTAR) : $(LIB_O) $(LIB_INIT_O)
+	$(AR) $@ $(ARCHIVE_OBJECTS)
+
+all : $(LIBTAR)
+
+#GENINIT := $(BUILD_TOOLS)/geninit.exe

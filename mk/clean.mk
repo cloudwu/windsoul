@@ -1,0 +1,2 @@
+clean :
+	-$(RMDIR) $(WINDSOUL)
