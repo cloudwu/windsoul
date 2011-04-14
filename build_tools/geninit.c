@@ -34,10 +34,7 @@ export(const char * name,struct importAll *all)
 {
 	char module[1024];
 	int i;
-	if (name[0] != '_') {
-		goto invalid_name;
-	}
-	for (i=1;name[i];i++) {
+	for (i=0;name[i];i++) {
 		char c = name[i];
 		if (c >= 'A' && c <='Z')
 			break;
@@ -49,8 +46,8 @@ export(const char * name,struct importAll *all)
 	if (strcmp(name+i,"Init")==0) {
 		exportInit = true;
 	}
-	memcpy(module, name+1, i-1);
-	module[i-1] = '\0';
+	memcpy(module, name, i);
+	module[i] = '\0';
 	if (exportName[0] == '\0') {
 		if (!exist(module,all)) {
 			goto invalid_name;
@@ -70,10 +67,7 @@ import(const char *name, struct importAll *all, struct importModule **head)
 {
 	char module[1024];
 	int i;
-	if (name[0] != '_') {
-		return;
-	}
-	for (i=1;name[i];i++) {
+	for (i=0;name[i];i++) {
 		char c = name[i];
 		if (c >= 'A' && c <='Z')
 			break;
@@ -82,8 +76,8 @@ import(const char *name, struct importAll *all, struct importModule **head)
 	}
 	if (name[i] == '\0')
 		return;
-	memcpy(module, name+1, i-1);
-	module[i-1] = '\0';
+	memcpy(module, name, i);
+	module[i] = '\0';
 	if (exist(module,all)) {
 		struct importModule * p = malloc(sizeof(struct importModule));
 		p->next = *head;
@@ -93,7 +87,7 @@ import(const char *name, struct importAll *all, struct importModule **head)
 }
 
 static void
-parser(const char *buf, struct importAll *all, struct importModule **module)
+parser_pe(const char *buf, struct importAll *all, struct importModule **module)
 {
 	char name[1024];
 	int index = 0;
@@ -105,12 +99,35 @@ parser(const char *buf, struct importAll *all, struct importModule **module)
 	int address = 0;
 	sscanf(buf,"[%d](sec%d)(fl %x)(ty %d)(scl %d) (nx %d) %x %s",
 		&index,&sec,&fl,&ty,&scl,&nx,&address,name);
+	if (name[0] != '_') {
+		return;
+	}
 	if (sec==1) {
 		if (scl == 2) {
-			export(name, all);
+			export(name+1, all);
 		}
 	} else if (sec==0) {
+		import(name+1, all, module);
+	}
+}
+
+static void
+parser_elf(const char *buf, struct importAll *all, struct importModule **module)
+{
+	char * und = strstr(buf,"*UND*");
+	char name[1024];
+	if (und) {
+		int _ = 0;
+		sscanf(und,"*UND* %x %s",&_, name);
 		import(name, all, module);
+	} else {
+		char skip[128];
+		char local;
+		char _ = 0;
+		sscanf(buf,"%s %c %c %s %s %s",skip,&local,&_,skip,skip,name);
+		if (local=='g') {
+			export(name, all);
+		}
 	}
 }
 
@@ -178,6 +195,7 @@ main(int argc, char *argv[])
 	int i;
 	struct importAll all;
 	struct importModule * head = NULL;
+	bool pe = true;
 
 	if (argc == 1) {
 		fprintf(stderr, "%s output\n",argv[0]);
@@ -192,12 +210,46 @@ main(int argc, char *argv[])
 	}
 	while (!feof(stdin)) {
 		char * ret = fgets(buf, 1024, stdin);
+		char * format;
+		if (ret == NULL) {
+			fprintf(stderr, "unknown format\n");
+			return 1;
+		}
+		format = strstr(ret,"file format");
+		if (format) {
+			char tmp[128];
+			sscanf(format,"file format %s",tmp);
+			if (memcmp(tmp,"pe",2) == 0)
+				break;
+			if (memcmp(tmp,"elf",3) == 0) {
+				pe = false;
+				break;
+			}
+			fprintf(stderr, "unknown format : %s\n",tmp);
+			return 1;
+		}
+	}
+	while (!feof(stdin)) {
+		char * ret = fgets(buf, 1024, stdin);
+		if (ret == NULL) {
+			fprintf(stderr, "SYMBOL TABLE not found.\n");
+			return 1;
+		}
+		if (strstr(ret,"SYMBOL TABLE"))
+			break;
+	}
+	while (!feof(stdin)) {
+		char * ret = fgets(buf, 1024, stdin);
 		if (ret == NULL) {
 			break;
 		}
-		if (buf[0]!='[')
-			continue;
-		parser(buf, &all, &head);
+		if (pe) {
+			if (buf[0]!='[')
+				continue;
+			parser_pe(buf, &all, &head);
+		} else {
+			parser_elf(buf, &all, &head);
+		}
 	}
 
 	output(argv[1], head);
