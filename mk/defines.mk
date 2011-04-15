@@ -1,6 +1,7 @@
 BUILD_TOP := $(WINDSOUL)/build
 LIB_DIR := $(WINDSOUL)/lib
 BUILD_TOOLS := $(WINDSOUL)/build_tools
+TEST_DIR := $(WINDSOUL)/test
 
 CC := gcc
 AR := ar rc
@@ -9,6 +10,7 @@ RMDIR := rm -r -f
 MKDIR := mkdir -p
 DEBUG ?= -g -O0
 TOUCH := touch
+EXE ?=.exe
 
 ifeq ($(filter -g,$(DEBUG)),-g)
   LDFLAGS := -g -Wall

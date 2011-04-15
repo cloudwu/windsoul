@@ -3,8 +3,6 @@
 
 #include "memory.h"
 
-void *fooBar();
-
 void *
 memoryAlloc(size_t size)
 {
@@ -14,7 +12,6 @@ memoryAlloc(size_t size)
 void
 memoryFree(void *p)
 {
-	fooBar();
 	free(p);
 }
 

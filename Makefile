@@ -7,6 +7,7 @@ else
     include mk/clean.mk
   else
     include mk/build.mk
+    include mk/build_test.mk
     include mk/mkdir.mk
   endif
 endif

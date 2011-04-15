@@ -192,9 +192,13 @@ atomBuildSep(const char *str,const char *sep,size_t *outlen)
 {
 	size_t len=0;
 	const char *tmp=str;
-	while (*tmp!='\0' && !strchr(sep,*tmp)) {
-		++tmp;
-		++len;
+	if (sep[0] == '\0') {
+		len = strlen(str);
+	} else {
+		while (*tmp!='\0' && !strchr(sep,*tmp)) {
+			++tmp;
+			++len;
+		}
 	}
 	if (outlen) {
 		*outlen = len;

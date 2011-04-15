@@ -1,6 +1,6 @@
 MKDIRS := $(MKDIRS) $(BUILD_TOOLS)
 
-GENINIT := $(BUILD_TOOLS)/geninit.exe
+GENINIT := $(BUILD_TOOLS)/geninit$(EXE)
 
 $(GENINIT) : | $(BUILD_TOOLS)
 $(GENINIT) : build_tools/geninit.c
