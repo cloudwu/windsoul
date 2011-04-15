@@ -1,6 +1,6 @@
 BUILD_TOP := $(WINDSOUL)/build
 LIB_DIR := $(WINDSOUL)/lib
-BUILD_TOOLS := $(BUILD_TOP)/build_tools
+BUILD_TOOLS := $(WINDSOUL)/build_tools
 
 CC := gcc
 AR := ar rc

@@ -1,8 +1,8 @@
-MKDIRS := $(MKDIRS) $(BUILD_TOP)/lib
+MKDIRS := $(MKDIRS) $(LIB_DIR)
 
-LIBTAR := $(BUILD_TOP)/lib/$(LIBTAR)
+LIBTAR := $(LIB_DIR)/$(LIBTAR)
 
-$(LIBTAR) : | $(BUILD_TOP)/lib
+$(LIBTAR) : | $(LIB_DIR)
 
 
 $(LIBTAR) : ARCHIVE_OBJECTS := $(LIB_O) $(LIB_INIT_O)
