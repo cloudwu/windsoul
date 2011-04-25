@@ -8,7 +8,8 @@ struct map;
 #define MAP_SEARCH 0
 #define MAP_INSERT 1
 #define MAP_REMOVE 2
-#define MAP_ITERATOR 3
+#define MAP_TRAVERSE 3
+#define MAP_SLOT 4
 
 struct map_op {
 	int op;

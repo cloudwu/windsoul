@@ -23,7 +23,7 @@ test()
 	insert(m,"2nd","World");
 
 	struct map_op op;
-	op.op = MAP_ITERATOR;
+	op.op = MAP_TRAVERSE;
 	op.value = NULL;
 
 	const char *v =NULL;

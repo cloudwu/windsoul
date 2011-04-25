@@ -226,8 +226,12 @@ mapSearch(struct map * m,struct map_op * op)
 			return ret;
 		}
 	}
-	case MAP_ITERATOR: {
+	case MAP_TRAVERSE: {
 		return _findnext((struct map *)m, op);
+	}
+	case MAP_SLOT: {
+		struct node *v = map_search(m, KEY(op));
+		return (void *) &(v->value);
 	}
 	default:
 		return NULL;

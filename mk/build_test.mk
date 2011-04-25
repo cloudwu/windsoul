@@ -3,6 +3,7 @@
 test :
 
 TESTSRCS := \
+  src/test/set.c \
   src/test/map.c
 
 INC := src/core
