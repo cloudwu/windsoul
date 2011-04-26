@@ -32,3 +32,16 @@ memoryPermanent(size_t size)
 	return malloc(size);
 }
 
+void *
+memoryTemp(size_t size)
+{
+	static void *temp = NULL;
+	static size_t sz = 0;
+	if (size > sz) {
+		sz = size;
+		free(temp);
+		temp = malloc(sz);
+	}
+	return temp;
+}
+

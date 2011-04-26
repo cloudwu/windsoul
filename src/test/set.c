@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include "set.h"
 #include "atom.h"
-
-int _setInit(void);
-int _atomInit(void);
+#include "test.h"
 
 static void
 test()
@@ -26,13 +24,3 @@ test()
 	setRelease(s);
 }
 
-int
-main()
-{
-	if (_setInit()) return 1;
-	if (_atomInit()) return 1;
-
-	test();
-
-	return 0;
-}

@@ -6,7 +6,8 @@ LIBSRCS := \
   src/core/memory.c \
   src/core/atom.c \
   src/core/map.c \
-  src/core/set.c
+  src/core/set.c \
+  src/core/log.c
 
 include mk/build_o.mk
 include mk/build_init.mk

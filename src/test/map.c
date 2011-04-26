@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include "map.h"
 #include "atom.h"
-
-int _mapInit(void);
-int _atomInit(void);
+#include "test.h"
 
 static void
 insert(struct map *m, const char *key, const char *value)
@@ -34,13 +32,3 @@ test()
 	mapRelease(m);
 }
 
-int
-main()
-{
-	if (_mapInit()) return 1;
-	if (_atomInit()) return 1;
-
-	test();
-
-	return 0;
-}
