@@ -44,6 +44,7 @@ static void
 logerr(const char *string)
 {
 	fputs(string, stderr);
+	fputs("\n", stderr);
 }
 
 int

@@ -7,6 +7,7 @@ int _setInit(void);
 int _atomInit(void);
 int _mapInit(void);
 int _logInit(void);
+int _vfsInit(void);
 
 int
 main()
@@ -15,6 +16,7 @@ main()
 	if (_atomInit()) return 1;
 	if (_mapInit()) return 1;
 	if (_logInit()) return 1;
+	if (_vfsInit()) return 1;
 
 	test();
 

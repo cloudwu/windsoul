@@ -3,7 +3,10 @@
 
 #include <stddef.h>
 
-struct atom_t;
+struct atom_t {
+	char s[16];
+};
+
 typedef struct atom_t * atom;
 
 atom atomBuild(const void *data, size_t sz);

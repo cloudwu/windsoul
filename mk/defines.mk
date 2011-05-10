@@ -8,7 +8,7 @@ AR := ar rc
 RM := rm
 RMDIR := rm -r -f
 MKDIR := mkdir -p
-DEBUG ?= -g -O0
+DEBUG := -g -O0
 TOUCH := touch
 EXE ?=.exe
 

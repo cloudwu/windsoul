@@ -7,7 +7,7 @@ define BUILD_temp
   $$(TAR).o : | $(BUILD_TOP)/o
   -include $$(TAR).d
   $$(TAR).o : $(1)
-	$(CC) -c -o $$@ $(CFLAGS) -MMD $$<
+	$(CC) $(CFLAGS) -c -o $$@ -MMD $$<
 endef
 
 $(foreach s,$(LIBSRCS),$(eval $(call BUILD_temp,$(s))))

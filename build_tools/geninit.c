@@ -74,7 +74,7 @@ import(const char *name, struct importAll *all, struct importModule **head)
 		if (!((c >= 'a' && c <='z') || (c >='0' && c<='9')))
 			return;
 	}
-	if (name[i] == '\0')
+	if (i==0 || name[i] == '\0')
 		return;
 	memcpy(module, name, i);
 	module[i] = '\0';
@@ -140,6 +140,9 @@ header(struct importModule *head, FILE *f)
 		fprintf(f, "int _%sInit(void);" CR, head->name);
 		head = head->next;
 	}
+	if (exportInit) {
+		fprintf(f, "int %sInit(void);" CR, exportName);
+	}
 }
 
 static void
@@ -190,7 +193,6 @@ output(const char * filename, struct importModule *head)
 int 
 main(int argc, char *argv[])
 {
-	FILE *f;
 	char buf[1024];
 	int i;
 	struct importAll all;

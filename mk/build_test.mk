@@ -5,6 +5,8 @@ test :
 TESTSRCS := \
   src/test/set.c \
   src/test/map.c \
+  src/test/vfs.c \
+  src/test/utf.c \
   src/test/log.c
 
 INC := src/core
@@ -17,7 +19,7 @@ define TEST_temp
   $$(TAR_O).o : | $(BUILD_TOP)/test
   -include $$(TAR_O).d
   $$(TAR_O).o : $(1) 
-	$(CC) -c -o $$@ $(CFLAGS) $(INC) -MMD $(1)
+	$(CC) $(CFLAGS) -c -o $$@ $(INC) -MMD $(1)
   TAR_EXE := $(TEST_DIR)/$(notdir $(basename $(1)))$(EXE)
   test : $$(TAR_EXE)
   $$(TAR_EXE) : | $(TEST_DIR)
