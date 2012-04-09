@@ -126,7 +126,7 @@ map_search(struct map *m,struct key *key)
 		temp=temp->next;
 	}
 	for (i=m->freenode;i<m->size;i++) {
-		if (m->buffer[i].value==0) {
+		if (m->buffer[i].key==0) {
 			m->buffer[i].key=key;
 			temp->next=m->buffer+i;
 			m->freenode=i+1;
